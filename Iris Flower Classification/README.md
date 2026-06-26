@@ -1,138 +1,62 @@
-# 🌸 Iris Flower Classification Project
+# 🌸 Iris Flower Classification
 
-A classic machine learning project to classify Iris flowers into three species (**Setosa**, **Versicolor**, and **Virginica**) using sepal and petal measurements.
+A machine learning web app that classifies an Iris flower into one of three species —
+**Setosa**, **Versicolor**, or **Virginica** — using a pre-trained **K-Nearest Neighbors (KNN)** model.
+The interface is built with **Streamlit**.
 
----
-
-## 📋 Table of Contents
-- [Overview](#overview)
-- [Dataset](#dataset)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Models Used](#models-used)
-- [Results](#results)
-- [Technologies](#technologies)
-- [Contributing](#contributing)
-- [License](#license)
+> Internship Task — Arc Technologies · Built by **Hassan Ahmad**
 
 ---
 
-## Overview
-This project demonstrates the complete machine learning workflow:
-- Exploratory Data Analysis (EDA)
-- Data visualization
-- Model training & evaluation
-- Model deployment (Streamlit web app)
+## 🧠 How It Works (from the code)
 
-It is an excellent beginner-to-intermediate project for understanding classification algorithms.
+The app (`Iris Flower Classification streamlit.py`):
 
----
-
-## Dataset
-The project uses the famous **Iris Dataset** by Ronald Fisher.
-
-- **Total samples**: 150
-- **Features**: 4 (Sepal Length, Sepal Width, Petal Length, Petal Width)
-- **Target**: 3 species (Setosa, Versicolor, Virginica)
-- **Source**: UCI Machine Learning Repository / scikit-learn
-
----
-
-## Features
-- Comprehensive EDA with visualizations
-- Multiple classification models
-- Model performance comparison
-- Interactive web application using **Streamlit**
-- Model saving & loading
-- Easy prediction interface
-
----
-
-## Project Structure
-```
-Iris Flower Classification/
-├── Iris Flower Classification streamlit.py    # Main Streamlit App
-├── requirements.txt                           # Dependencies
-├── model/                                     # Saved models (if any)
-├── notebooks/                                 # Jupyter notebooks (EDA)
-├── data/                                      # iris.csv (if included)
-├── README.md
-└── screenshots/                               # (optional)
-```
-
----
-
-## Installation
-
-1. Clone the repository:
-   ```bash
-   git clone <your-repo-url>
-   cd Iris-Flower-Classification
+1. **Loads** the pre-trained KNN model from `iris_knn_model.joblib`
+   (it checks the file exists and handles load errors gracefully).
+2. **Takes 4 measurements** from the user via number inputs:
+   - Sepal Length (cm)
+   - Sepal Width (cm)
+   - Petal Length (cm)
+   - Petal Width (cm)
+3. **Predicts** the species. The model returns a class index that maps to a name:
+   ```python
+   species_names = ['setosa', 'versicolor', 'virginica']
+   input_data = np.array([[sepal_length, sepal_width, petal_length, petal_width]])
+   prediction_index = model.predict(input_data)[0]
+   predicted_species = species_names[prediction_index]
    ```
-
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+4. **Displays** the predicted species with a short description and celebratory balloons.
 
 ---
 
-## Usage
+## 📁 Files in This Folder
 
-### Run Streamlit App
+| File | Description |
+|------|-------------|
+| `Iris Flower Classification streamlit.py` | Streamlit web app for live predictions |
+| `Iris Flower Classification.ipynb` | Notebook: EDA, model training & evaluation |
+| `iris_knn_model.joblib` | Pre-trained KNN model (format used by the app) |
+| `iris_knn_model.pkl` | Same model saved as a pickle file |
+| `README.md` | This file |
+
+---
+
+## 🚀 Run It
+
 ```bash
+# 1. Install dependencies
+pip install streamlit scikit-learn numpy joblib
+
+# 2. Run the app (from inside this folder)
 streamlit run "Iris Flower Classification streamlit.py"
 ```
 
-### Or run Jupyter Notebook (if available)
-```bash
-jupyter notebook
-```
+Enter the four flower measurements and click **Predict Species**.
 
 ---
 
-## Models Used
-- Logistic Regression
-- Support Vector Machine (SVM)
-- Random Forest Classifier
-- K-Nearest Neighbors (KNN)
-- Decision Tree
+## 🛠️ Tech Stack
 
-**Best Model**: Usually SVM or Random Forest (depends on your training)
-
----
-
-## Results
-(Replace this section with your actual results)
-
-| Model                | Accuracy | Precision | Recall | F1-Score |
-|----------------------|----------|-----------|--------|----------|
-| Logistic Regression  | 0.97     | 0.97      | 0.97   | 0.97     |
-| SVM                  | **0.98** | 0.98      | 0.98   | 0.98     |
-| Random Forest        | 0.96     | 0.96      | 0.96   | 0.96     |
-
----
-
-## Technologies
-- **Python**
-- **scikit-learn**
-- **Pandas**, **NumPy**
-- **Matplotlib**, **Seaborn**
-- **Streamlit** (for web app)
-- **Joblib** (model saving)
-
----
-
-## Contributing
-Feel free to fork this project and submit pull requests. Any improvements are welcome!
-
----
-
-## License
-This project is open-source and available under the **MIT License**.
-
----
-
-**Made with ❤️ for learning Machine Learning**
+Python · scikit-learn (KNN) · NumPy · Streamlit · joblib
+**Dataset:** Classic Iris dataset (150 samples, 4 features, 3 species)

@@ -1,85 +1,69 @@
-# Email Spam Classification
+# 📧 Email Spam Classification
 
-A machine learning project for classifying emails as **Spam** or **Ham** (non-spam). Includes a Jupyter Notebook for model development and a Streamlit web application for interactive predictions.
+A machine learning project that classifies an email / SMS message as **Spam** or **Not Spam (Ham)**.
+It is trained on the `spam.csv` dataset, uses **TF-IDF** features with a scikit-learn classifier, and is served through an interactive **Streamlit** web app.
 
-## Features
-
-- **Data Preprocessing**: Text cleaning, vectorization (TF-IDF), etc.
-- **Machine Learning Models**: Trained classifiers (e.g., Naive Bayes, Logistic Regression, SVM, Random Forest, etc.)
-- **Interactive Web App**: Built with Streamlit for easy email classification
-- **Evaluation Metrics**: Accuracy, Precision, Recall, F1-Score, Confusion Matrix
-- **Jupyter Notebook**: Full exploratory data analysis and model training
-
-## Project Structure
-
-```
-Email-Spam-Classification/
-├── Email Spam Classification.ipynb     # Jupyter Notebook (EDA + Modeling)
-├── Email Spam Classification streamlit.py  # Streamlit Web Application
-├── requirements.txt                    # Python dependencies
-├── data/                               # Dataset folder (if included)
-├── models/                             # Saved trained models
-└── README.md
-```
-
-## Installation & Setup
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/Email-Spam-Classification.git
-   cd Email-Spam-Classification
-   ```
-
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Run the Streamlit App**
-   ```bash
-   streamlit run "Email Spam Classification streamlit.py"
-   ```
-
-4. **Open Jupyter Notebook** (optional)
-   ```bash
-   jupyter notebook "Email Spam Classification.ipynb"
-   ```
-
-## Technologies Used
-
-- Python
-- Pandas, NumPy
-- Scikit-learn
-- NLTK / Text processing
-- Streamlit (for web UI)
-- Matplotlib / Seaborn (visualizations)
-
-## How to Use the App
-
-1. Run the Streamlit command above
-2. Open the local URL (usually http://localhost:8501)
-3. Paste an email text into the input box
-4. Click **Classify** to get Spam / Ham prediction with confidence score
-
-## Dataset
-
-The model was trained on a publicly available spam/ham email dataset.
-
-## Future Improvements
-
-- Add deep learning models (LSTM, BERT)
-- Email integration (fetch from Gmail/IMAP)
-- Bulk classification
-- Model deployment (Hugging Face / Heroku / AWS)
-
-## Contributing
-
-Pull requests are welcome! Feel free to open issues for bugs or feature requests.
-
-## License
-
-MIT License
+> Internship Task 1 — Arc Technologies · Built by **Hassan Ahmad**
 
 ---
 
-**Made with ❤️ for learning and spam prevention**
+## 🧠 How It Works (from the code)
+
+The Streamlit app (`Email Spam Classification streamlit.py`) does the following:
+
+1. **Loads** two saved artifacts with `joblib`:
+   - `spam_classifier_model.pkl` — the trained classifier
+   - `tfidf_vectorizer.pkl` — the fitted TF-IDF vectorizer
+2. **Preprocesses** the user's text the same way as during training:
+   - Keeps only letters (`re.sub('[^a-zA-Z]', ' ', text)`)
+   - Lower-cases and splits into words
+   - Removes English **stopwords** (NLTK) and applies **Porter stemming**
+3. **Vectorizes** the cleaned text with the TF-IDF vectorizer.
+4. **Predicts** with the model:
+   - `1` → 🚨 **Spam**
+   - `0` → ✅ **Not Spam** (with balloons / snow animation)
+
+```python
+def preprocess(text):
+    text = re.sub('[^a-zA-Z]', ' ', text)
+    text = text.lower().split()
+    text = [ps.stem(word) for word in text if word not in stopwords.words('english')]
+    return ' '.join(text)
+
+cleaned = preprocess(user_input)
+vectorized = vectorizer.transform([cleaned]).toarray()
+prediction = model.predict(vectorized)[0]   # 1 = Spam, 0 = Ham
+```
+
+---
+
+## 📁 Files in This Folder
+
+| File | Description |
+|------|-------------|
+| `Email Spam Classification streamlit.py` | Streamlit web app for live predictions |
+| `Email Spam Classification.ipynb` | Notebook: EDA, preprocessing & model training |
+| `spam.csv` | Labeled spam/ham dataset used for training |
+| `spam_classifier_model.pkl` | Trained classifier (saved with joblib) |
+| `tfidf_vectorizer.pkl` | Fitted TF-IDF vectorizer |
+| `README.md` | This file |
+
+---
+
+## 🚀 Run It
+
+```bash
+# 1. Install dependencies
+pip install streamlit scikit-learn nltk joblib
+
+# 2. Run the app (from inside this folder)
+streamlit run "Email Spam Classification streamlit.py"
+```
+
+Then open the local URL (usually http://localhost:8501), paste an email, and click **🔍 Check Spam**.
+
+---
+
+## 🛠️ Tech Stack
+
+Python · scikit-learn · NLTK (stopwords + Porter stemmer) · TF-IDF · Streamlit · joblib
